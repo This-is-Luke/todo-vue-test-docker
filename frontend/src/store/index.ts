@@ -1,19 +1,24 @@
 import { createStore } from "vuex";
+import axios from "axios";
+import { Todo } from "./types";
 
 export default createStore({
   state: {
-    todos: [
-      { id: 1, text: "Learn Vue", completed: false },
-      { id: 2, text: "Learn TypeScript", completed: false },
-      { id: 3, text: "Build ToDo App", completed: false },
-    ],
+    todos: [] as Todo[],
   },
   mutations: {
+    setTodos(state, todos: Todo[]) {
+      state.todos = todos;
+    },
     addTodo(state, todo) {
       state.todos.push(todo);
     },
   },
   actions: {
+    async fetchTodos({ commit }) {
+      const response = await axios.get("http://localhost:3000/todos");
+      commit("setTodos", response.data);
+    },
     addTodo({ commit }, todo) {
       commit("addTodo", todo);
     },
