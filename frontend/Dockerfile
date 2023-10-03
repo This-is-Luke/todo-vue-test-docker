@@ -1,9 +1,9 @@
 # Step 1: Build the Vue.js application
 FROM node:18.16.0 AS build
 WORKDIR /app
-COPY frontend/package*.json ./
+COPY package*.json ./
 RUN npm install
-COPY frontend/ ./
+COPY . ./
 RUN npm run build
 
 # Step 2: Serve the app using Nginx
