@@ -1,61 +1,59 @@
-import { hashPassword, checkPassword } from '../utils/passwordUtils';
 import express, { Request, Response } from 'express';
-
+import { EntityManager, getManager } from 'typeorm';
+import { hashPassword, checkPassword } from '../utils/passwordUtils';
+import { User } from '../models/User';
+import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 // Create User (Register)
 router.post('/register', async (req: Request, res: Response) => {
-  try {
-    const { username, email, password } = req.body;
-
-    // Basic validation
-    if (!username || !email || !password) {
-      return res.status(400).send("All fields are required.");
-    }
-
-    const hashedPassword = await hashPassword(password);
-
-    // Here, you'd save the user to the database
-    // ...
-
-
-    res.status(201).send("User registered!");
-  } catch (error) {
-    res.status(500).send("Server error");
-  }
+  const { username, email, password } = req.body;
+  const entityManager: EntityManager = getManager();
+  
+  // Validate the data here...
+  const hashedPassword = await hashPassword(password);
+  
+  const newUser = new User();
+  newUser.username = username;
+  newUser.email = email;
+  newUser.password_hash = hashedPassword;
+  
+  await entityManager.save(User, newUser);
+  
+  res.status(201).send("User registered!");
 });
 
 // Login User
 router.post('/login', async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
-
-    // Basic validation
-    if (!email || !password) {
-      return res.status(400).send("All fields are required.");
-    }
-
-    // Here, you'd validate and check the user against the database
-    // ...
-
-    res.status(200).send("User logged in!");
-  } catch (error) {
-    res.status(500).send("Server error");
+  const { email, password } = req.body;
+  const entityManager: EntityManager = getManager();
+  
+  // Validate and check user
+  const user = await entityManager.findOne(User, { where: { email } });
+  
+  if (user && await checkPassword(password, user.password_hash)) {
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      process.env.SECRET_KEY!,
+      { expiresIn: '1h' }
+    );
+    
+    res.status(200).json({ message: "User logged in!", token });
+  } else {
+    res.status(401).send("Unauthorized");
   }
 });
 
 // Delete User
 router.delete('/user/:id', async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-
-    // Here, you'd delete the user from the database
-    // ...
-
-    res.status(200).send("User deleted!");
-  } catch (error) {
-    res.status(500).send("Server error");
-  }
+  const { id } = req.params;
+  const entityManager: EntityManager = getManager();
+  
+  // Delete user from database
+  await entityManager.delete(User, id);
+  
+  res.status(200).send("User deleted!");
 });
 
 export default router;
