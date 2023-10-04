@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Todo {
+export class Todo {
     constructor(id, userId, title, description, isCompleted) {
         this.id = id;
         this.userId = userId;
