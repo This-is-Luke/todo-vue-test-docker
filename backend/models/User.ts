@@ -1,8 +1,23 @@
-export default class User {
-    constructor(
-      public id: number,
-      public username: string,
-      public email: string,
-      public hashedPassword: string
-    ) {}
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Unique
+} from 'typeorm';
+
+@Entity()
+@Unique(["username", "email"])
+export class User {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column()
+  username!: string;
+
+  @Column()
+  email!: string;
+
+  @Column()
+  password_hash!: string;
 }
+
