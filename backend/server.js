@@ -1,37 +1,53 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
+const typeorm_1 = require("typeorm");
 const cors_1 = __importDefault(require("cors"));
-const mysql_1 = __importDefault(require("mysql"));
-const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
-const todoRoutes_1 = __importDefault(require("./routes/todoRoutes"));
 const shoppingListRoutes_1 = __importDefault(require("./routes/shoppingListRoutes"));
+const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config(); // Load environment variables
 const app = (0, express_1.default)();
-// Middleware
-app.use(express_1.default.json());
-app.use((0, cors_1.default)()); // Using CORS middleware
-// MySQL Configuration
-const db = mysql_1.default.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
-// Connect to MySQL
-db.connect((err) => {
-    if (err)
-        throw err;
-    console.log('Connected to MySQL');
-});
-// Routes
-app.use('/api/auth', authRoutes_1.default);
-app.use('/api/todo', todoRoutes_1.default);
-app.use('/api/shopping-list', shoppingListRoutes_1.default);
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+const port = process.env.PORT || 3000;
+function startServer() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield (0, typeorm_1.createConnection)({
+                type: "mysql",
+                host: process.env.DB_HOST,
+                port: Number(process.env.DB_PORT),
+                username: process.env.DB_USER,
+                password: process.env.DB_PASSWORD,
+                database: process.env.DB_NAME,
+                entities: [__dirname + "/entity/*.js"],
+                synchronize: true,
+            });
+            console.log("Connected to MySQL via TypeORM");
+        }
+        catch (err) {
+            console.error("TypeORM connection error: ", err);
+            return;
+        }
+        app.use((0, cors_1.default)());
+        app.use(express_1.default.json());
+        app.use('/api/shopping-list', shoppingListRoutes_1.default);
+        app.use('/api/auth', authRoutes_1.default);
+        app.listen(port, () => {
+            console.log(`Server running on http://localhost:${port}`);
+        });
+    });
+}
+startServer();

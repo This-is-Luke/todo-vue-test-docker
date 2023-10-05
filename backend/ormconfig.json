@@ -3,18 +3,12 @@
     "host": "localhost",
     "port": 3306,
     "username": "root",
-    "password": "your_password",
+    "password": "longpassword321",
     "database": "TodoAppDB",
     "synchronize": true,
     "logging": false,
     "entities": [
-      "src/models/**/*.ts"
-    ],
-    "migrations": [
-      "src/migration/**/*.ts"
-    ],
-    "subscribers": [
-      "src/subscriber/**/*.ts"
+      "backend/models/**/*.ts"
     ]
-  }
+}
   
