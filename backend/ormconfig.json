@@ -8,7 +8,7 @@
   "synchronize": true,
   "logging": true,
   "entities": [
-    "/models/**/*.ts"
+    "src/models/*.ts"
   ],
   "extra": {
     "driver": "mysql2"

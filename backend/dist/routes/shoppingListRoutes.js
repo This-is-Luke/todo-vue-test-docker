@@ -18,7 +18,7 @@ const typeorm_1 = require("typeorm");
 const ShoppingList_1 = __importDefault(require("../models/ShoppingList"));
 console.log("Imports are done.");
 const router = express_1.default.Router();
-router.post('/api/shopping-list', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/shopping-list', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Inside POST /api/shopping-list route.");
     const shoppingListRepository = (0, typeorm_1.getManager)().getRepository(ShoppingList_1.default);
     const { itemName, quantity } = req.body;
@@ -31,7 +31,7 @@ router.post('/api/shopping-list', (req, res) => __awaiter(void 0, void 0, void 0
     return res.status(201).json(item);
 }));
 // Get all Shopping List items
-router.get('/api/shopping-list', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/shopping-list', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Inside GET /api/shopping-list route.");
     const shoppingListRepository = (0, typeorm_1.getManager)().getRepository(ShoppingList_1.default);
     const items = yield shoppingListRepository.find();
