@@ -1,13 +1,15 @@
+console.log("ShoppingListRoutes file is being read.");
 import express from 'express';
 import { getManager } from 'typeorm';
 import ShoppingList from '../models/ShoppingList';
 import fs from 'fs';
 
+console.log("Imports are done.");
+
 const router = express.Router();
 
 router.post('/shopping-list', async (req, res) => {
-  console.log("POST /shopping-list called");
-  const shoppingListRepository = getManager().getRepository(ShoppingList);
+  console.log("Inside POST /api/shopping-list route.");  const shoppingListRepository = getManager().getRepository(ShoppingList);
   const { itemName, quantity } = req.body;
   const userId = 1; 
   const id = 0; 
@@ -21,7 +23,7 @@ router.post('/shopping-list', async (req, res) => {
 
 // Get all Shopping List items
 router.get('/shopping-list', async (req, res) => {
-  console.log("GET /shopping-list called");
+  console.log("Inside GET /api/shopping-list route.");
   const shoppingListRepository = getManager().getRepository(ShoppingList);
   const items = await shoppingListRepository.find();
   console.log("Items fetched:", items);
@@ -49,5 +51,7 @@ router.delete('/shopping-list/:id', async (req, res) => {
   console.log("Item deleted:", id);
   return res.status(204).send();
 });
+
+console.log("All routes are defined.");
 
 export default router;

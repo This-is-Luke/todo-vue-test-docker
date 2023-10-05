@@ -22,6 +22,10 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config(); // Load environment variables
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use('/api/shopping-list', shoppingListRoutes_1.default);
+app.use('/api/auth', authRoutes_1.default);
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -32,7 +36,7 @@ function startServer() {
                 username: process.env.DB_USER,
                 password: process.env.DB_PASSWORD,
                 database: process.env.DB_NAME,
-                entities: [__dirname + "/models/**/*.js"],
+                entities: [__dirname + "/dist/models/**/*.js"],
                 synchronize: true,
             });
             console.log("Connected to MySQL via TypeORM");
@@ -42,13 +46,9 @@ function startServer() {
             process.exit(1);
             return;
         }
-        app.get('/test', (req, res) => {
-            res.send('Test successful');
+        app.get('/api/shopping-list/test', (req, res) => {
+            res.send('Test shopping list');
         });
-        app.use((0, cors_1.default)());
-        app.use(express_1.default.json());
-        app.use('/api/shopping-list', shoppingListRoutes_1.default);
-        app.use('/api/auth', authRoutes_1.default);
         app.listen(port, () => {
             console.log(`Server running on http://localhost:${port}`);
         });

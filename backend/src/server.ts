@@ -11,6 +11,11 @@ dotenv.config();  // Load environment variables
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors());
+app.use(express.json());
+app.use('/api/shopping-list', shoppingListRoutes);
+app.use('/api/auth', authRoutes);
+
 async function startServer() {
   try {
     await createConnection({
@@ -20,7 +25,7 @@ async function startServer() {
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [__dirname + "/models/**/*.js"],
+      entities: [__dirname + "/dist/models/**/*.js"],
       synchronize: true,
     });
     console.log("Connected to MySQL via TypeORM");
@@ -30,16 +35,10 @@ async function startServer() {
     return;
   }
 
-  app.get('/test', (req, res) => {
-    res.send('Test successful');
+  app.get('/api/shopping-list/test', (req, res) => {
+    res.send('Test shopping list');
   });
-  
-
-  app.use(cors());
-  app.use(express.json());
-
-  app.use('/api/shopping-list', shoppingListRoutes);
-  app.use('/api/auth', authRoutes);
+    
 
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
