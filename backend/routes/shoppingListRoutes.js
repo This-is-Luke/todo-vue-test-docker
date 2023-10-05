@@ -18,6 +18,7 @@ const ShoppingList_1 = __importDefault(require("../models/ShoppingList"));
 const router = express_1.default.Router();
 // Create a new Shopping List item
 router.post('/shopping-list', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("POST /shopping-list called");
     const shoppingListRepository = (0, typeorm_1.getManager)().getRepository(ShoppingList_1.default);
     const { itemName, quantity } = req.body;
     const userId = 1; // Replace this with the actual user ID once you have authentication set up
@@ -25,28 +26,35 @@ router.post('/shopping-list', (req, res) => __awaiter(void 0, void 0, void 0, fu
     const isPurchased = false; // Default value
     const item = new ShoppingList_1.default(id, userId, itemName, quantity, isPurchased);
     yield shoppingListRepository.save(item);
+    console.log("Item saved:", item);
     return res.status(201).json(item);
 }));
 // Get all Shopping List items
 router.get('/shopping-list', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("GET /shopping-list called");
     const shoppingListRepository = (0, typeorm_1.getManager)().getRepository(ShoppingList_1.default);
     const items = yield shoppingListRepository.find();
+    console.log("Items fetched:", items);
     return res.json(items);
 }));
 // Update a Shopping List item
 router.put('/shopping-list/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(`PUT /shopping-list/${req.params.id} called`);
     const shoppingListRepository = (0, typeorm_1.getManager)().getRepository(ShoppingList_1.default);
     const id = Number(req.params.id); // Convert string to number
     const { itemName, quantity } = req.body;
     yield shoppingListRepository.update(id, { itemName, quantity });
     const updatedItem = yield shoppingListRepository.findOne({ where: { id: id } });
+    console.log("Item updated:", updatedItem);
     return res.json(updatedItem);
 }));
 // Delete a Shopping List item
 router.delete('/shopping-list/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(`DELETE /shopping-list/${req.params.id} called`);
     const shoppingListRepository = (0, typeorm_1.getManager)().getRepository(ShoppingList_1.default);
     const id = Number(req.params.id); // Convert string to number
     yield shoppingListRepository.delete(id);
+    console.log("Item deleted:", id);
     return res.status(204).send();
 }));
 exports.default = router;

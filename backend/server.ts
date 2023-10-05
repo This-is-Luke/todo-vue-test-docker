@@ -20,7 +20,7 @@ async function startServer() {
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [__dirname + "backend/models/**/*.ts"],
+      entities: [__dirname + "/models/**/*.ts"],
       synchronize: true,
     });
     console.log("Connected to MySQL via TypeORM");
@@ -29,6 +29,11 @@ async function startServer() {
     process.exit(1);
     return;
   }
+
+  app.get('/test', (req, res) => {
+    res.send('Test successful');
+  });
+  
 
   app.use(cors());
   app.use(express.json());

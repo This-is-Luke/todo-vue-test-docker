@@ -8,11 +8,8 @@
   "synchronize": true,
   "logging": true,
   "entities": [
-    "backend/entity/**/*.ts"
+    "/models/**/*.ts"
   ],
-  "cli": {
-    "entitiesDir": "backend/entity"
-  },
   "extra": {
     "driver": "mysql2"
   }  
