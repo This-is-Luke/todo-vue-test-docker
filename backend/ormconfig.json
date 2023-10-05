@@ -1,14 +1,19 @@
 {
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
-    "password": "longpassword321",
-    "database": "TodoAppDB",
-    "synchronize": true,
-    "logging": false,
-    "entities": [
-      "backend/models/**/*.ts"
-    ]
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "root",
+  "password": "longpassword321",
+  "database": "TodoAppDB",
+  "synchronize": true,
+  "logging": false,
+  "entities": [
+    "backend/entity/**/*.ts"
+  ],
+  "cli": {
+    "entitiesDir": "backend/entity"
+  },
+  "extra": {
+    "driver": "mysql2"
+  }
 }
-  

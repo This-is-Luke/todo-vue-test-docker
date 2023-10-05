@@ -32,13 +32,14 @@ function startServer() {
                 username: process.env.DB_USER,
                 password: process.env.DB_PASSWORD,
                 database: process.env.DB_NAME,
-                entities: [__dirname + "/entity/*.js"],
+                entities: [__dirname + "backend/models/**/*.ts"],
                 synchronize: true,
             });
             console.log("Connected to MySQL via TypeORM");
         }
         catch (err) {
             console.error("TypeORM connection error: ", err);
+            process.exit(1);
             return;
         }
         app.use((0, cors_1.default)());
