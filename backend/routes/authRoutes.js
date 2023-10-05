@@ -12,52 +12,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const passwordUtils_1 = require("../utils/passwordUtils");
 const express_1 = __importDefault(require("express"));
+const typeorm_1 = require("typeorm");
+const passwordUtils_1 = require("../utils/passwordUtils");
+const User_1 = require("../models/User");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const router = express_1.default.Router();
 // Create User (Register)
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { username, email, password } = req.body;
-        // Basic validation
-        if (!username || !email || !password) {
-            return res.status(400).send("All fields are required.");
-        }
-        const hashedPassword = yield (0, passwordUtils_1.hashPassword)(password);
-        // Here, you'd save the user to the database
-        // ...
-        res.status(201).send("User registered!");
-    }
-    catch (error) {
-        res.status(500).send("Server error");
-    }
+    const { username, email, password } = req.body;
+    const entityManager = (0, typeorm_1.getManager)();
+    // Validate the data here...
+    const hashedPassword = yield (0, passwordUtils_1.hashPassword)(password);
+    const newUser = new User_1.User();
+    newUser.username = username;
+    newUser.email = email;
+    newUser.password_hash = hashedPassword;
+    yield entityManager.save(User_1.User, newUser);
+    res.status(201).send("User registered!");
 }));
 // Login User
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { email, password } = req.body;
-        // Basic validation
-        if (!email || !password) {
-            return res.status(400).send("All fields are required.");
-        }
-        // Here, you'd validate and check the user against the database
-        // ...
-        res.status(200).send("User logged in!");
+    const { email, password } = req.body;
+    const entityManager = (0, typeorm_1.getManager)();
+    // Validate and check user
+    const user = yield entityManager.findOne(User_1.User, { where: { email } });
+    if (user && (yield (0, passwordUtils_1.checkPassword)(password, user.password_hash))) {
+        // Generate JWT token
+        const token = jsonwebtoken_1.default.sign({ userId: user.id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        res.status(200).json({ message: "User logged in!", token });
     }
-    catch (error) {
-        res.status(500).send("Server error");
+    else {
+        res.status(401).send("Unauthorized");
     }
 }));
 // Delete User
 router.delete('/user/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        // Here, you'd delete the user from the database
-        // ...
-        res.status(200).send("User deleted!");
-    }
-    catch (error) {
-        res.status(500).send("Server error");
-    }
+    const { id } = req.params;
+    const entityManager = (0, typeorm_1.getManager)();
+    // Delete user from database
+    yield entityManager.delete(User_1.User, id);
+    res.status(200).send("User deleted!");
 }));
 exports.default = router;
