@@ -4,9 +4,9 @@
   "port": 3306,
   "username": "root",
   "password": "longpassword321",
-  "database": "TodoAppDB",
+  "database": "TodoApp",
   "synchronize": true,
-  "logging": false,
+  "logging": true,
   "entities": [
     "backend/entity/**/*.ts"
   ],
@@ -15,5 +15,5 @@
   },
   "extra": {
     "driver": "mysql2"
-  }
+  }  
 }
