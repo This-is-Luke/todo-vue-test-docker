@@ -12,11 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 let ShoppingList = class ShoppingList {
     constructor(id, item_name, quantity, type, status) {
+        this.status = 'Pending';
         this.item_id = id || 0;
         this.item_name = item_name || '';
         this.quantity = quantity || 0;
         this.type = type || '';
-        this.status = status || false;
+        this.status = status || 'Pending';
     }
 };
 __decorate([
@@ -37,10 +38,10 @@ __decorate([
 ], ShoppingList.prototype, "type", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", String)
 ], ShoppingList.prototype, "status", void 0);
 ShoppingList = __decorate([
     (0, typeorm_1.Entity)(),
-    __metadata("design:paramtypes", [Number, String, Number, String, Boolean])
+    __metadata("design:paramtypes", [Number, String, Number, String, String])
 ], ShoppingList);
 exports.default = ShoppingList;

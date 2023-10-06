@@ -30,13 +30,12 @@ router.post('/', validateRequest, (req, res) => __awaiter(void 0, void 0, void 0
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const { itemName, quantity } = req.body;
-    const userId = 1; // Hardcoded for demonstration
+    const { item_id, quantity, item_name } = req.body;
     const item = new ShoppingList_1.default();
-    item.userId = userId;
-    item.itemName = itemName;
-    item.quantity = quantity;
-    item.isPurchased = false;
+    item.item_id = item_id || 0;
+    item.item_name = item_name || '';
+    item.quantity = quantity || 0;
+    item.status = '';
     const entityManager = (0, typeorm_1.getManager)();
     yield entityManager.save(ShoppingList_1.default, item);
     res.status(201).json(item);
@@ -53,7 +52,7 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // GET route to fetch a single shopping list item by ID
 router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const entityManager = (0, typeorm_1.getManager)();
-    const item = yield entityManager.findOne(ShoppingList_1.default, { where: { id: Number(req.params.id) } });
+    const item = yield entityManager.findOne(ShoppingList_1.default, { where: { item_id: Number(req.params.id) } });
     if (!item) {
         return res.status(404).json({ message: 'Item not found' });
     }
@@ -66,12 +65,12 @@ router.put('/:id', validateRequest, (req, res) => __awaiter(void 0, void 0, void
         return res.status(400).json({ errors: errors.array() });
     }
     const entityManager = (0, typeorm_1.getManager)();
-    const item = yield entityManager.findOne(ShoppingList_1.default, { where: { id: Number(req.params.id) } });
+    const item = yield entityManager.findOne(ShoppingList_1.default, { where: { item_id: Number(req.params.id) } });
     if (!item) {
         return res.status(404).json({ message: 'Item not found' });
     }
-    const { itemName, quantity } = req.body;
-    item.itemName = itemName;
+    const { item_id, quantity } = req.body;
+    item.item_id = item_id;
     item.quantity = quantity;
     yield entityManager.save(ShoppingList_1.default, item);
     res.status(200).json(item);
@@ -79,7 +78,7 @@ router.put('/:id', validateRequest, (req, res) => __awaiter(void 0, void 0, void
 // DELETE route to remove a shopping list item by ID
 router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const entityManager = (0, typeorm_1.getManager)();
-    const item = yield entityManager.findOne(ShoppingList_1.default, { where: { id: Number(req.params.id) } });
+    const item = yield entityManager.findOne(ShoppingList_1.default, { where: { item_id: Number(req.params.id) } });
     if (!item) {
         return res.status(404).json({ message: 'Item not found' });
     }

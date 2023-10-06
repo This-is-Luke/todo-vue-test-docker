@@ -5,17 +5,22 @@ export default class ShoppingList {
   @PrimaryGeneratedColumn()
   item_id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   item_name: string;
 
-  @Column()
+  @Column({ type: 'int' })
   quantity: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50, nullable: true })
   type: string;
 
-  @Column()
-  status: string="Bought" || "Pending";
+  @Column({
+    type: 'enum',
+    enum: ['Pending', 'Bought'],
+    default: 'Pending',
+    nullable: true
+  })
+  status: string;
 
   constructor(
     id?: number,
