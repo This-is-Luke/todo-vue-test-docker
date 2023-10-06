@@ -1,3 +1,4 @@
+import exp from 'constants';
 import express from 'express';
 
 const app = express();
@@ -10,3 +11,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+
+export default app;
