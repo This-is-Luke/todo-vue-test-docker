@@ -1,10 +1,27 @@
-export default class ShoppingList {
-    constructor(
-      public id: number,
-      public userId: number,
-      public itemName: string,
-      public quantity: number,
-      public isPurchased: boolean
-    ) {}
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+
+@Entity()
+export class ShoppingList {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  userId: number;
+
+  @Column()
+  itemName: string;
+
+  @Column()
+  quantity: number;
+
+  @Column()
+  isPurchased: boolean;
+
+  constructor(id: number, userId: number, itemName: string, quantity: number, isPurchased: boolean) {
+    this.id = id;
+    this.userId = userId;
+    this.itemName = itemName;
+    this.quantity = quantity;
+    this.isPurchased = isPurchased;
   }
-  
+}

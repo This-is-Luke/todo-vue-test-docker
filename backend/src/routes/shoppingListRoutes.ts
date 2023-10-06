@@ -1,7 +1,7 @@
 console.log("ShoppingListRoutes file is being read.");
 import express from 'express';
 import { getManager } from 'typeorm';
-import ShoppingList from '../models/ShoppingList';
+import { ShoppingList } from '../models/ShoppingList';
 import fs from 'fs';
 
 console.log("Imports are done.");
