@@ -6,16 +6,19 @@ import shoppingListRoutes from './routes/shoppingListRoutes';
 import authRoutes from './routes/authRoutes';
 import dotenv from 'dotenv';
 
-dotenv.config();  // Load environment variables
+dotenv.config(); 
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// express use
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api/shopping-list', shoppingListRoutes);
 app.use('/api/auth', authRoutes);
 
+// express get mysql
 async function startServer() {
   try {
     await createConnection({
@@ -34,12 +37,12 @@ async function startServer() {
     process.exit(1);
     return;
   }
-
+  // express endpoint test
   app.get('/api/shopping-list/test', (req, res) => {
     res.send('Test shopping list');
   });
     
-
+  //express set server port
   app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
   });
