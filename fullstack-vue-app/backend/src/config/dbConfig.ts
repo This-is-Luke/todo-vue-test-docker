@@ -2,10 +2,10 @@ import mysql from 'mysql2/promise';
 
 // Create a MySQL database connection
 export const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    host: 'localhost',
+    user: 'root',
+    password: 'longpassword321',
+    database: 'todo_app',
 });
 
 // Test the database connection
