@@ -44,14 +44,25 @@ export const addItem = async (req: Request, res: Response) => {
 // Update item
 export const updateItem = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const { item_name, quantity, type, status } = req.body;
+  const updates = req.body;
+
   try {
-    await db.query('UPDATE shopping_list SET item_name = ?, quantity = ?, type = ?, status = ? WHERE item_id = ?', [item_name, quantity, type, status, id]);
+    // Fetch the existing item
+    const [existingRows] = await db.query('SELECT * FROM shopping_list WHERE item_id = ?', [id]) as unknown as [RowDataPacket[]];
+    const existingItem = existingRows[0];
+
+    // Merge existing item with updates
+    const updatedItem = { ...existingItem, ...updates };
+
+    // Perform the update
+    await db.query('UPDATE shopping_list SET item_name = ?, quantity = ?, type = ?, status = ? WHERE item_id = ?', [updatedItem.item_name, updatedItem.quantity, updatedItem.type, updatedItem.status, id]);
+    
     res.status(200).json({ message: 'Item updated successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
 };
+
 
 // Delete item
 export const deleteItem = async (req: Request, res: Response) => {
