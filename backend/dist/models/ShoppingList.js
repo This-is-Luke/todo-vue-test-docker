@@ -9,15 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ShoppingList = void 0;
 const typeorm_1 = require("typeorm");
 let ShoppingList = class ShoppingList {
     constructor(id, userId, itemName, quantity, isPurchased) {
-        this.id = id;
-        this.userId = userId;
-        this.itemName = itemName;
-        this.quantity = quantity;
-        this.isPurchased = isPurchased;
+        this.id = id || 0;
+        this.userId = userId || 0;
+        this.itemName = itemName || '';
+        this.quantity = quantity || 0;
+        this.isPurchased = isPurchased || false;
     }
 };
 __decorate([
@@ -44,4 +43,4 @@ ShoppingList = __decorate([
     (0, typeorm_1.Entity)(),
     __metadata("design:paramtypes", [Number, Number, String, Number, Boolean])
 ], ShoppingList);
-exports.ShoppingList = ShoppingList;
+exports.default = ShoppingList;

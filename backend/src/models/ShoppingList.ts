@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class ShoppingList {
+export default class ShoppingList {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,11 +17,17 @@ export class ShoppingList {
   @Column()
   isPurchased: boolean;
 
-  constructor(id: number, userId: number, itemName: string, quantity: number, isPurchased: boolean) {
-    this.id = id;
-    this.userId = userId;
-    this.itemName = itemName;
-    this.quantity = quantity;
-    this.isPurchased = isPurchased;
+  constructor(
+    id?: number,
+    userId?: number,
+    itemName?: string,
+    quantity?: number,
+    isPurchased?: boolean
+  ) {
+    this.id = id || 0;
+    this.userId = userId || 0;
+    this.itemName = itemName || '';
+    this.quantity = quantity || 0;
+    this.isPurchased = isPurchased || false;
   }
 }

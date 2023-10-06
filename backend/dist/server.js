@@ -19,13 +19,16 @@ const cors_1 = __importDefault(require("cors"));
 const shoppingListRoutes_1 = __importDefault(require("./routes/shoppingListRoutes"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config(); // Load environment variables
+dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
+// express use
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/api/shopping-list', shoppingListRoutes_1.default);
 app.use('/api/auth', authRoutes_1.default);
+// express get mysql
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -46,9 +49,11 @@ function startServer() {
             process.exit(1);
             return;
         }
+        // express endpoint test
         app.get('/api/shopping-list/test', (req, res) => {
             res.send('Test shopping list');
         });
+        //express set server port
         app.listen(port, () => {
             console.log(`Server running on http://localhost:${port}`);
         });
