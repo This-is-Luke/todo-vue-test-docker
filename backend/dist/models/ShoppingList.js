@@ -45,7 +45,7 @@ __decorate([
     __metadata("design:type", String)
 ], ShoppingList.prototype, "status", void 0);
 ShoppingList = __decorate([
-    (0, typeorm_1.Entity)(),
+    (0, typeorm_1.Entity)('shopping_list'),
     __metadata("design:paramtypes", [Number, String, Number, String, String])
 ], ShoppingList);
 exports.default = ShoppingList;

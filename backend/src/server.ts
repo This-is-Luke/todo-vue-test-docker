@@ -28,7 +28,7 @@ async function startServer() {
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [__dirname + "/dist/models/**/*.js"],
+      entities: [__dirname + "src/models/*.ts"],
       synchronize: true,
     });
     console.log("Connected to MySQL via TypeORM");
