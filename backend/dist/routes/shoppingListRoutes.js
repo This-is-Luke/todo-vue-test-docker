@@ -45,6 +45,9 @@ router.post('/', validateRequest, (req, res) => __awaiter(void 0, void 0, void 0
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const entityManager = (0, typeorm_1.getManager)();
     const items = yield entityManager.find(ShoppingList_1.default);
+    if (!items) {
+        return res.status(404).json({ message: 'No items found' });
+    }
     res.status(200).json(items);
 }));
 // GET route to fetch a single shopping list item by ID

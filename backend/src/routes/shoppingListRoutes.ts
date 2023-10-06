@@ -40,6 +40,9 @@ router.post('/', validateRequest, async (req: Request, res: Response) => {
 router.get('/', async (req, res) => {
   const entityManager = getManager();
   const items = await entityManager.find(ShoppingList);
+  if (!items) {
+    return res.status(404).json({ message: 'No items found' });
+  }
   res.status(200).json(items);
 });
 
