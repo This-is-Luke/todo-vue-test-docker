@@ -21,14 +21,13 @@ router.post('/', validateRequest, async (req: Request, res: Response) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { itemName, quantity } = req.body;
-  const userId = 1; // Hardcoded for demonstration
+  const { item_id, quantity, item_name } = req.body;
 
   const item = new ShoppingList();
-  item.userId = userId;
-  item.itemName = itemName;
-  item.quantity = quantity;
-  item.isPurchased = false;
+  item.item_id = item_id || 0;
+  item.item_name = item_name || '';
+  item.quantity = quantity || 0;
+  item.status = '';
 
   const entityManager = getManager();
   await entityManager.save(ShoppingList, item);

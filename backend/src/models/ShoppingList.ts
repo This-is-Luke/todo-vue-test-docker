@@ -3,31 +3,31 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export default class ShoppingList {
   @PrimaryGeneratedColumn()
-  id: number;
+  item_id: number;
 
   @Column()
-  userId: number;
-
-  @Column()
-  itemName: string;
+  item_name: string;
 
   @Column()
   quantity: number;
 
   @Column()
-  isPurchased: boolean;
+  type: string;
+
+  @Column()
+  status: string="Bought" || "Pending";
 
   constructor(
     id?: number,
-    userId?: number,
-    itemName?: string,
+    item_name?: string,
     quantity?: number,
-    isPurchased?: boolean
+    type?: string,
+    status?: string
   ) {
-    this.id = id || 0;
-    this.userId = userId || 0;
-    this.itemName = itemName || '';
+    this.item_id = id || 0;
+    this.item_name = item_name || '';
     this.quantity = quantity || 0;
-    this.isPurchased = isPurchased || false;
+    this.type = type || '';
+    this.status = status || 'Pending';
   }
 }

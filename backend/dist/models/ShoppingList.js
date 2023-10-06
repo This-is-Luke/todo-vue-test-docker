@@ -11,36 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 let ShoppingList = class ShoppingList {
-    constructor(id, userId, itemName, quantity, isPurchased) {
-        this.id = id || 0;
-        this.userId = userId || 0;
-        this.itemName = itemName || '';
+    constructor(id, item_name, quantity, type, status) {
+        this.item_id = id || 0;
+        this.item_name = item_name || '';
         this.quantity = quantity || 0;
-        this.isPurchased = isPurchased || false;
+        this.type = type || '';
+        this.status = status || false;
     }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], ShoppingList.prototype, "id", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], ShoppingList.prototype, "userId", void 0);
+], ShoppingList.prototype, "item_id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], ShoppingList.prototype, "itemName", void 0);
+], ShoppingList.prototype, "item_name", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], ShoppingList.prototype, "quantity", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], ShoppingList.prototype, "type", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
-], ShoppingList.prototype, "isPurchased", void 0);
+], ShoppingList.prototype, "status", void 0);
 ShoppingList = __decorate([
     (0, typeorm_1.Entity)(),
-    __metadata("design:paramtypes", [Number, Number, String, Number, Boolean])
+    __metadata("design:paramtypes", [Number, String, Number, String, Boolean])
 ], ShoppingList);
 exports.default = ShoppingList;
