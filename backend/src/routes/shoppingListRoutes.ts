@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
 // GET route to fetch a single shopping list item by ID
 router.get('/:id', async (req, res) => {
   const entityManager = getManager();
-  const item = await entityManager.findOne(ShoppingList, { where: { id: Number(req.params.id) } });
+  const item = await entityManager.findOne(ShoppingList, { where: { item_id: Number(req.params.id) } });
   if (!item) {
     return res.status(404).json({ message: 'Item not found' });
   }
@@ -63,13 +63,13 @@ router.put('/:id', validateRequest, async (req: Request, res: Response) => {
   }
 
   const entityManager = getManager();
-  const item = await entityManager.findOne(ShoppingList, { where: { id: Number(req.params.id) } });
+  const item = await entityManager.findOne(ShoppingList, { where: { item_id: Number(req.params.id) } });
   if (!item) {
     return res.status(404).json({ message: 'Item not found' });
   }
 
-  const { itemName, quantity } = req.body;
-  item.itemName = itemName;
+  const { item_id, quantity } = req.body;
+  item.item_id = item_id;
   item.quantity = quantity;
 
   await entityManager.save(ShoppingList, item);
@@ -79,7 +79,7 @@ router.put('/:id', validateRequest, async (req: Request, res: Response) => {
 // DELETE route to remove a shopping list item by ID
 router.delete('/:id', async (req, res) => {
   const entityManager = getManager();
-  const item = await entityManager.findOne(ShoppingList, { where: { id: Number(req.params.id) } });
+  const item = await entityManager.findOne(ShoppingList, { where: { item_id: Number(req.params.id) } });
   if (!item) {
     return res.status(404).json({ message: 'Item not found' });
   }
