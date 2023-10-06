@@ -19,6 +19,7 @@ const cors_1 = __importDefault(require("cors"));
 const shoppingListRoutes_1 = __importDefault(require("./routes/shoppingListRoutes"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const typeorm_2 = require("typeorm");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
@@ -53,6 +54,7 @@ function startServer() {
         app.get('/api/shopping-list/test', (req, res) => {
             res.send('Test shopping list');
         });
+        console.log((0, typeorm_2.getMetadataArgsStorage)());
         //express set server port
         app.listen(port, () => {
             console.log(`Server running on http://localhost:${port}`);

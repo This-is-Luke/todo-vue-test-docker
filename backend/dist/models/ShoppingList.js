@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 let ShoppingList = class ShoppingList {
     constructor(id, item_name, quantity, type, status) {
-        this.status = 'Pending';
         this.item_id = id || 0;
         this.item_name = item_name || '';
         this.quantity = quantity || 0;
@@ -25,19 +24,24 @@ __decorate([
     __metadata("design:type", Number)
 ], ShoppingList.prototype, "item_id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255 }),
     __metadata("design:type", String)
 ], ShoppingList.prototype, "item_name", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'int' }),
     __metadata("design:type", Number)
 ], ShoppingList.prototype, "quantity", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true }),
     __metadata("design:type", String)
 ], ShoppingList.prototype, "type", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: ['Pending', 'Bought'],
+        default: 'Pending',
+        nullable: true
+    }),
     __metadata("design:type", String)
 ], ShoppingList.prototype, "status", void 0);
 ShoppingList = __decorate([

@@ -5,7 +5,7 @@ import cors from 'cors';
 import shoppingListRoutes from './routes/shoppingListRoutes';
 import authRoutes from './routes/authRoutes';
 import dotenv from 'dotenv';
-
+import { getMetadataArgsStorage } from "typeorm";
 dotenv.config(); 
 
 const app = express();
@@ -41,6 +41,9 @@ async function startServer() {
   app.get('/api/shopping-list/test', (req, res) => {
     res.send('Test shopping list');
   });
+
+  console.log(getMetadataArgsStorage());
+
     
   //express set server port
   app.listen(port, () => {
