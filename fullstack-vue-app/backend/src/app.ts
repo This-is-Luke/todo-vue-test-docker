@@ -1,24 +1,23 @@
 import express from 'express';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './middleware/logger';
+import { checkBlacklist } from './middleware/checkBlacklist';  // Import the checkBlacklist middleware
+import { protect } from './middleware/authMiddleware';  // Import the protect middleware
 import apiRoutes from './routes/apiRoutes';
 import authRoutes from './routes/authRoutes';
-import { protect } from './middleware/authMiddleware';
 
 const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(logger);  // Logging
+app.use(logger);
+
+// Use the middleware for routes starting with '/api'
+app.use('/api', checkBlacklist, protect);
 
 // Routes
 app.use('/api', apiRoutes);
-
-// Auth Routes
 app.use('/api/auth', authRoutes);
-
-// Protected Routes
-app.use('/api/items', protect, apiRoutes);
 
 // Error Handling
 app.use(errorHandler);

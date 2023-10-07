@@ -13,7 +13,7 @@ import {
 // Create router
 const router = express.Router();
 
-// Protected route example
+// Protected route
 router.get('/api/protected-route', protect, (req, res) => {
   res.send('You got access to the protected route');
 });
