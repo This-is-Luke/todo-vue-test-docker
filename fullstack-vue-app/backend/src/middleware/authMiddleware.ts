@@ -27,10 +27,12 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
+    console.log("Token from request:", token);
     const decoded = jwt.verify(token, 'yourSecretKey');
     req.user = decoded;
     next();
   } catch (error) {
+    console.error("error: ", error);
     res.status(401).json({ message: 'Token is not valid' });
   }
 };

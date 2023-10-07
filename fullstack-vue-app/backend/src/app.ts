@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(logger);
 
 // Use the middleware for routes starting with '/api'
-app.use('/api', checkBlacklist, protect);
+app.use('/api', checkBlacklist);
 
 // Routes
 app.use('/api', apiRoutes);
