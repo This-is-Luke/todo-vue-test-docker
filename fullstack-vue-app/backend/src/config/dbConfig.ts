@@ -1,3 +1,4 @@
+import { createPool } from 'mysql2';
 import mysql from 'mysql2/promise';
 
 // Create a MySQL database connection
@@ -20,3 +21,4 @@ async function testConnection() {
 }
 
 testConnection();
+db;
