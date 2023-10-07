@@ -1,5 +1,6 @@
 import express from 'express';
 import { protect } from '../middleware/authMiddleware';
+import { getAllUsers, deleteUser, getUserById } from '../controllers/userController';
 
 // Import controllers
 import {
@@ -7,11 +8,22 @@ import {
   getItemById,
   addItem,
   updateItem,
-  deleteItem
+  deleteItem,
 } from '../controllers/shoppingListController';
 
 // Create router
 const router = express.Router();
+
+// User routes
+
+// Get user by ID
+router.get('/users/:id', protect, getUserById);  // Protected
+
+// Get all users
+router.get('/users', protect, getAllUsers);  // Protected
+
+// Delete user
+router.delete('/users/:id', protect, deleteUser);  // Protected
 
 // Protected route
 router.get('/api/protected-route', protect, (req, res) => {

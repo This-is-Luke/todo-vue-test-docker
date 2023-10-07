@@ -21,4 +21,4 @@ async function testConnection() {
 }
 
 testConnection();
-db;
+export default db;

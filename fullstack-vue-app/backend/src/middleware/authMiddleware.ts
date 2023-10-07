@@ -27,7 +27,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    console.log("Token from request:", token);
+    console.log("Token from request: Received");
     const decoded = jwt.verify(token, 'yourSecretKey');
     req.user = decoded;
     next();
