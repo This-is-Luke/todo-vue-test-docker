@@ -30,16 +30,26 @@ export const getItemById = async (req: Request, res: Response) => {
     }
   };
 
-// Add new item
-export const addItem = async (req: Request, res: Response) => {
-  const { item_name, quantity, type, status } = req.body;
-  try {
-    await db.query('INSERT INTO shopping_list (item_name, quantity, type, status) VALUES (?, ?, ?, ?)', [item_name, quantity, type, status]);
-    res.status(201).json({ message: 'Item added successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
-  }
-};
+  export const addItem = async (req: Request, res: Response) => {
+    const { item_name, quantity, type, status } = req.body;
+    const userId = req.user.id;  // Assuming req.user contains the decoded JWT
+  
+    // Check if item already exists
+    const [existingRows] = await db.query('SELECT * FROM shopping_list WHERE item_name = ? AND userId = ?', [item_name, userId]) as unknown as [RowDataPacket[]];
+    if (existingRows.length > 0) {
+      return res.status(400).json({ message: 'Item already exists' });
+    }
+  
+    try {
+      // Insert the new item
+      await db.query('INSERT INTO shopping_list (item_name, quantity, type, status, userId) VALUES (?, ?, ?, ?, ?)', [item_name, quantity, type, status, userId]);
+      res.status(201).json({ message: 'Item added successfully' });
+    } catch (error) {
+      res.status(400).json({ message: 'Error adding item', error });
+    }
+  };
+  
+
 
 // Update item
 export const updateItem = async (req: Request, res: Response) => {
