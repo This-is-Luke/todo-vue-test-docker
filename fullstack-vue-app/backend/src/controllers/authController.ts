@@ -2,8 +2,10 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { db } from '../config/dbConfig';
-import { config } from 'dotenv';
+import { getRepository } from 'typeorm'; // Import this for the shopping list
+import { ShoppingItem } from '../entities/ShoppingItem'; // Import your ShoppingItem entity
 import { RowDataPacket } from 'mysql2';
+import { Equal } from 'typeorm';
 
 // Register User
 export const register = async (req: Request, res: Response) => {
@@ -60,6 +62,45 @@ export const logout = async (req: Request, res: Response) => {
     await db.query('INSERT INTO jwt_blacklist (token, expiry) VALUES (?, ?)', [token, expiry]);
 
     res.status(200).json({ message: 'Logged out successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+// Get Shopping List for a User
+export const getShoppingList = async (req: Request, res: Response) => {
+  console.log("User ID from req.user.id:", req.user.id); // Debugging line
+  const userId = parseInt(req.user.id, 10); // Convert string to number
+  console.log("Parsed User ID:", userId); // Debugging line
+  
+  try {
+    const shoppingList = await getRepository(ShoppingItem)
+      .createQueryBuilder("shoppingItem") // Alias for ShoppingItem table
+      .innerJoin("shoppingItem.user", "user") // Alias for user table
+      .where("user.id = :userId", { userId }) // Parameter substitution
+      .getMany(); // Execute query
+
+    console.log("Fetched Shopping List:", shoppingList); // Debugging line
+    res.json(shoppingList);
+  } catch (error) {
+    console.error("Error fetching shopping list:", error); // Debugging line
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+
+// Get Shopping Item by ID
+export const getShoppingItemById = async (req: Request, res: Response) => {
+  const userId = parseInt(req.user.id, 10);
+  const itemId = parseInt(req.params.id, 10);
+  try {
+    const shoppingItem = await getRepository(ShoppingItem).findOne({
+      where: {
+        user: Equal(userId),
+        id: Equal(itemId)
+      }
+    });
+    res.json(shoppingItem);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
