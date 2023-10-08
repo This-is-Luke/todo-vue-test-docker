@@ -1,14 +1,13 @@
-import { createStore } from 'vuex'
-
+// Vuex Store
 export default createStore({
   state: {
-  },
-  getters: {
+    isAuthenticated: false,
   },
   mutations: {
+    setAuthenticated(state, value) {
+      state.isAuthenticated = value;
+    },
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {},
+});
