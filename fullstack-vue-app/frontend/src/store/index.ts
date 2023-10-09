@@ -1,13 +1,19 @@
-// Vuex Store
-export default createStore({
-  state: {
-    isAuthenticated: false,
-  },
-  mutations: {
-    setAuthenticated(state, value) {
-      state.isAuthenticated = value;
+import { createStore } from 'vuex'
+
+interface State {
+    isAuthenticated: boolean
+}
+
+export default createStore<State>({
+    state: {
+        isAuthenticated: false,
     },
-  },
-  actions: {},
-  modules: {},
-});
+    mutations: {
+        setAuthenticate(state: State, value: any) {
+            state.isAuthenticated = value
+        },
+        setAuthenticated(state: State, value: boolean) {
+            state.isAuthenticated = value
+        },
+    },
+})
