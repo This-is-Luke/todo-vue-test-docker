@@ -22,7 +22,7 @@ This project is a ToDo application built with Vue.js and Docker, featuring a rob
 
 -  Frontend: Vue.js
 -  Backend: Node.js, Express
--  Database: MongoDB
+-  Database: mySQL
 -  Containerization: Docker
 
 ## Setup
@@ -67,14 +67,14 @@ For more details, check the [frontend code](https://github.com/This-is-Luke/todo
 -  **API Endpoints**:
 -  `/api/auth`
 -  `/api/users`
--  `/api/tasks`
+-  `/api/items`
 
 ### Frontend Usage
 
 -  **Pages**:
--  Home
 -  Login
 -  Register
+-  ToDo Lists
 -  ToDo List
 
 ## Contributing
