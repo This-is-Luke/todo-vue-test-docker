@@ -3,14 +3,17 @@
 <!-- eslint-disable vue/attributes-order -->
 <!-- eslint-disable vue/html-indent -->
 <!-- eslint-disable vue/html-self-closing -->
+<!-- TodoItem.vue -->
 <template>
     <div class="todo-item">
         <input
             type="checkbox"
-            v-model="item.completed"
+            :checked="item.status === 'Bought'"
             @change="toggleCompletion"
         />
-        <span :class="{ completed: item.completed }">{{ item.name }}</span>
+        <span :class="{ completed: item.status === 'Bought' }">{{
+            item.item_name
+        }}</span>
         <button @click="deleteItem">Delete</button>
     </div>
 </template>
@@ -18,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { useStore } from 'vuex'
-import { ShoppingItem } from '@/types' // Import the ShoppingItem type
+import { ShoppingItem } from '@/types' // Import the TodoItem type
 
 export default defineComponent({
     props: {
@@ -31,11 +34,11 @@ export default defineComponent({
         const store = useStore()
 
         const toggleCompletion = () => {
-            store.dispatch('toggleItemCompletion', props.item.id) // Vuex action
+            store.commit('toggleItemCompletion', props.item.item_id) // Vuex mutation
         }
 
         const deleteItem = () => {
-            store.dispatch('deleteItem', props.item.id) // Vuex action
+            store.commit('deleteTodoItem', props.item.item_id) // Vuex mutation
         }
 
         return {

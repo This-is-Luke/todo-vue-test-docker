@@ -1,19 +1,41 @@
 import { createStore } from 'vuex'
 
-interface State {
-    isAuthenticated: boolean
+interface TodoItem {
+    item_id: number
+    item_name: string
+    quantity: number
+    type: string | null
+    status: 'Pending' | 'Bought' | null
+    userId: number | null
 }
 
-export default createStore<State>({
+export default createStore({
     state: {
-        isAuthenticated: false,
+        todoItems: [] as TodoItem[], // Explicitly define the type here
     },
     mutations: {
-        setAuthenticate(state: State, value: any) {
-            state.isAuthenticated = value
+        setTodoItems(state, items: TodoItem[]) {
+            state.todoItems = items
         },
-        setAuthenticated(state: State, value: boolean) {
-            state.isAuthenticated = value
+        addTodoItem(state, item: TodoItem) {
+            state.todoItems.push(item)
         },
+        deleteTodoItem(state, itemId: number) {
+            state.todoItems = state.todoItems.filter(
+                (item) => item.item_id !== itemId
+            )
+        },
+        toggleItemCompletion(state, itemId: number) {
+            const item = state.todoItems.find((item) => item.item_id === itemId)
+            if (item) {
+                item.status = item.status === 'Pending' ? 'Bought' : 'Pending'
+            }
+        },
+    },
+    actions: {
+        // Here we'll add asynchronous actions that commit mutations
+    },
+    modules: {
+        // If your store grows, you can split it into modules
     },
 })

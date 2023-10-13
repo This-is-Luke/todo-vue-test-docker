@@ -1,5 +1,5 @@
+// types.ts
 export interface ShoppingItem {
-    id(arg0: string, id: any): unknown
     item_id: number
     item_name: string
     quantity: number
