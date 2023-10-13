@@ -4,6 +4,7 @@ import Login from './views/Login.vue'
 import ViewLists from './views/ViewLists.vue'
 import List from './views/List.vue'
 import Logout from './views/Logout.vue'
+import RegisterForm from './components/Register.vue'
 
 const routes: any = [
     { path: '/register', component: Register },
