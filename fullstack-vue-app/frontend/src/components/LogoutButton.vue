@@ -1,3 +1,9 @@
+<!-- eslint-disable vue/multi-word-component-names -->
+<!-- eslint-disable vue/singleline-html-element-content-newline -->
+<!-- eslint-disable vue/attributes-order -->
+<!-- eslint-disable vue/max-attributes-per-line -->
+<!-- eslint-disable vue/html-self-closing -->
+<!-- eslint-disable vue/html-indent -->
 <template>
     <button @click="logout" class="logout-button">Logout</button>
 </template>
