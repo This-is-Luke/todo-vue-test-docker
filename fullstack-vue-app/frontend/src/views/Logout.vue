@@ -3,32 +3,28 @@
 <!-- eslint-disable vue/max-attributes-per-line -->
 <!-- eslint-disable vue/html-indent -->
 <template>
-    <div class="container">
-        <button @click="logout" class="logout-button">Logout</button>
-    </div>
+    <div>Logging out...</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex' // Import Vuex store
 
 export default defineComponent({
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'Logout',
     setup() {
+        const store = useStore()
         const router = useRouter()
-        const store = useStore() // Initialize Vuex store
 
-        // Function to handle logout
-        const logout = () => {
-            store.commit('setAuthenticated', false) // Update Vuex store to set user as unauthenticated
-            router.push('/login') // Redirect to login page
-        }
+        // Trigger logout action from Vuex store
+        store.dispatch('logout')
 
-        return {
-            logout,
-        }
+        // Redirect to login page
+        router.push('/login')
+
+        return {}
     },
 })
 </script>

@@ -14,6 +14,11 @@ export default createStore({
         todoItems: [] as TodoItem[], // Explicitly define the type here
     },
     mutations: {
+        logout(state) {
+            state.user = null
+            state.token = null
+        },
+
         setTodoItems(state, items: TodoItem[]) {
             state.todoItems = items
         },
