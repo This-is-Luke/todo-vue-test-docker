@@ -6,75 +6,59 @@
 <!-- eslint-disable vue/html-self-closing -->
 <!-- eslint-disable vue/html-indent -->
 <template>
-    <div class="list-container">
-        <h1>{{ listName }}</h1>
-        <button @click="addItem" class="add-button">Add Item</button>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in listItems" :key="item.id">
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <button @click="editItem(item.id)">Edit</button>
-                        <button @click="deleteItem(item.id)">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="list-item-container">
+        <h1>Edit Item: {{ item.item_name }}</h1>
+        <form @submit.prevent="saveChanges">
+            <input
+                type="text"
+                v-model="item.item_name"
+                placeholder="Item Name"
+            />
+            <input
+                type="number"
+                v-model="item.quantity"
+                placeholder="Quantity"
+            />
+            <input type="text" v-model="item.type" placeholder="Type" />
+            <select v-model="item.status">
+                <option value="Pending">Pending</option>
+                <option value="Bought">Bought</option>
+            </select>
+            <button type="submit">Save Changes</button>
+            <button @click="deleteItem">Delete Item</button>
+        </form>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import axios from 'axios'
 
 export default defineComponent({
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: 'List',
     setup() {
-        const listName = ref('Sample List')
-        const listItems = ref([
-            { id: 1, name: 'Item 1' },
-            { id: 2, name: 'Item 2' },
-            // Add more items here
-        ])
+        // Sample item data, this should come from the parent component or an API call
+        const item = ref({
+            item_id: 1,
+            item_name: 'Sample Item',
+            quantity: 1,
+            type: 'Grocery',
+            status: 'Pending',
+            userId: 1,
+        })
 
-        const addItem = () => {
-            const newItem = {
-                id: listItems.value.length + 1,
-                name: `Item ${listItems.value.length + 1}`,
-            }
-            listItems.value.push(newItem)
+        const saveChanges = async () => {
+            // API call to update the item
+            await axios.put(`/api/items/${item.value.item_id}`, item.value)
         }
 
-        const editItem = (id: number) => {
-            const itemToEdit = listItems.value.find((item) => item.id === id)
-            if (itemToEdit) {
-                const newName = prompt('Edit item name:', itemToEdit.name)
-                if (newName !== null) {
-                    itemToEdit.name = newName
-                }
-            }
-        }
-
-        const deleteItem = (id: number) => {
-            const indexToDelete = listItems.value.findIndex(
-                (item) => item.id === id
-            )
-            if (indexToDelete !== -1) {
-                listItems.value.splice(indexToDelete, 1)
-            }
+        const deleteItem = async () => {
+            // API call to delete the item
+            await axios.delete(`/api/items/${item.value.item_id}`)
         }
 
         return {
-            listName,
-            listItems,
-            addItem,
-            editItem,
+            item,
+            saveChanges,
             deleteItem,
         }
     },
@@ -82,38 +66,22 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.list-container {
-    max-width: 600px;
-    margin: auto;
+.list-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
 }
 
-.add-button {
-    float: right;
-    margin-bottom: 20px;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th,
-td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
+input,
+select {
+    margin-bottom: 10px;
+    padding: 5px;
 }
 
 button {
-    margin-right: 10px;
-    padding: 5px 10px;
+    padding: 10px;
+    margin-top: 10px;
     background-color: #007bff;
     color: white;
     border: none;
