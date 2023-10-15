@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/order-in-components -->
 <!-- eslint-disable vue/html-indent -->
 <!-- eslint-disable vue/html-closing-bracket-spacing -->
 <!-- eslint-disable vue/singleline-html-element-content-newline -->
@@ -11,6 +12,44 @@
     </nav>
     <router-view />
 </template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
+    name: 'App',
+    data() {
+        return {
+            user: null,
+            shoppingLists: [],
+        }
+    },
+    methods: {
+        fetchUser() {
+            // Fetch user data from API or local storage
+        },
+        fetchShoppingLists() {
+            // Fetch shopping lists for the user
+        },
+        logout() {
+            // Logout logic
+        },
+    },
+    // eslint-disable-next-line vue/order-in-components
+    computed: {
+        isLoggedIn() {
+            return this.user !== null
+        },
+    },
+    // eslint-disable-next-line vue/order-in-components
+    mounted() {
+        this.fetchUser()
+        if (this.isLoggedIn) {
+            this.fetchShoppingLists()
+        }
+    },
+})
+</script>
 
 <style lang="scss">
 #app {
