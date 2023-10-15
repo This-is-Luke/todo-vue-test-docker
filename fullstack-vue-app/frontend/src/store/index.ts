@@ -9,9 +9,17 @@ interface TodoItem {
     userId: number | null
 }
 
+interface State {
+    todoItems: TodoItem[]
+    user: string | null
+    token: string | null
+}
+
 export default createStore({
     state: {
         todoItems: [] as TodoItem[], // Explicitly define the type here
+        user: null,
+        token: null,
     },
     mutations: {
         logout(state) {
