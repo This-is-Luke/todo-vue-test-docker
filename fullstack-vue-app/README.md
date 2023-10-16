@@ -1,90 +1,41 @@
-# ToDo Vue Test Docker Project
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Technologies](#technologies)
-3. [Setup](#setup)
-   -  [Backend Setup](#backend-setup)
-   -  [Frontend Setup](#frontend-setup)
-4. [Usage](#usage)
-   -  [Backend Usage](#backend-usage)
-   -  [Frontend Usage](#frontend-usage)
-5. [Contributing](#contributing)
-6. [License](#license)
-7. [Contact](#contact)
+# Todo Vue Test Docker
 
 ## Introduction
 
-This project is a ToDo application built with Vue.js and Docker, featuring a robust backend. It's designed to help you manage your tasks effectively and efficiently.
+This repository contains a Todo application built with Vue.js for the frontend and Node.js for the backend. It is designed to be run using Docker.
 
-## Technologies
+## Table of Contents
 
--  Frontend: Vue.js
--  Backend: Node.js, Express
--  Database: MongoDB
--  Containerization: Docker
+-  [Introduction](#introduction)
+-  [Prerequisites](#prerequisites)
+-  [Quick Start](#quick-start)
+-  [Frontend](#frontend)
+-  [Backend](#backend)
+-  [Contributing](#contributing)
 
-## Setup
+## Prerequisites
 
-### Backend Setup
+-  Docker
+-  Docker Compose
 
-1. Navigate to the backend directory:
+## Quick Start
 
--  cd fullstack-vue-app/backend
+To get the application up and running, execute the following commands:
 
-2. Install dependencies:
+git clone https://github.com/This-is-Luke/todo-vue-test-docker.git
+cd todo-vue-test-docker
+docker-compose up
 
--  npm install
+This will start both the frontend and backend services. You can access the frontend at `http://localhost:8080` and the backend at `http://localhost:3000`.
 
-3. Start the server
+## Frontend
 
--  npm start
+For detailed instructions on setting up and running the frontend, please refer to the [Frontend README](./frontend/README.md).
 
-For more details, check the [backend code](https://github.com/This-is-Luke/todo-vue-test-docker/tree/main/fullstack-vue-app/backend).
+## Backend
 
-### Frontend Setup
-
-1. Navigate to the frontend directory:
-
--  cd fullstack-vue-app/frontend
-
-2. Install dependencies:
-
--  npm install
-
-3. Start the server
-
--  npm run serve
-
-For more details, check the [frontend code](https://github.com/This-is-Luke/todo-vue-test-docker/tree/main/fullstack-vue-app/frontend).
-
-## Usage
-
-### Backend Usage
-
--  **Authentication**: The backend uses JWT for authentication.
--  **API Endpoints**:
--  `/api/auth`
--  `/api/users`
--  `/api/tasks`
-
-### Frontend Usage
-
--  **Pages**:
--  Home
--  Login
--  Register
--  ToDo List
+For detailed instructions on setting up and running the backend, please refer to the [Backend README](./backend/README.md).
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-## Contact
-
-Your Name - [Email](mailto:your.contact@thisisluke.co.za)
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution guidelines.
